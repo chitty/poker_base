@@ -1,3 +1,6 @@
+import itertools
+
+
 def card_ranks(cards):
     """Return a list of the ranks, sorted with higher first.
 
@@ -104,3 +107,12 @@ def poker(hands):
         hands: list of hands to compare.
     """
     return allmax(hands, key=hand_rank)
+
+
+def best_hand(hand):
+    """From a n-card hand, return the best 5 card hand.
+
+    Args:
+        hand: a list with n cards, with n > 5.
+    """
+    return max(itertools.combinations(hand, 5), key=hand_rank)
