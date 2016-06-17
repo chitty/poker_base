@@ -1,10 +1,28 @@
 def poker(hands):
-    """Return the best hand: poker([hand,...]) => hand
+    """Return a list of winning hands: poker([hand,...]) => [hand,...]
 
 	Args:
 		hands: list of hands to compare.
     """
-    return max(hands, key=hand_rank)
+    return allmax(hands, key=hand_rank)
+
+
+def allmax(iterable, key=None):
+	"""Return a list of all items equal to the max of the iterable.
+
+	Args:
+		iterable: list of all the items, poker hands.
+		key: method to do comparisons.
+	"""
+	result, maxval = [], None
+	key = key or (lambda x: x)
+	for x in iterable:
+		xval = key(x)
+		if not result or xval > maxval:
+			result, maxval = [x], xval
+		elif xval == maxval:
+			result.append(x)
+	return result
 
 
 def card_ranks(cards):
@@ -99,8 +117,8 @@ def test():
     s2 = "2S 3C 4D 5D 6S".split() # 2-6 Straight
     ah = "AC 2S 9C 4D 6D".split() # A High 
     sh = "7C 2S 6C 3D 5D".split() # 7 High
-    assert poker([s1, s2, ah, sh]) == s2
-    assert poker([s1, ah, sh]) == s1
+    assert poker([s1, s2, ah, sh]) == [s2]
+    assert poker([s1, ah, sh]) == [s1]
     fkranks = card_ranks(fk)
     tpranks = card_ranks(tp)
     assert kind(4, fkranks) == 9
@@ -109,11 +127,11 @@ def test():
     assert kind(1, fkranks) == 7
     assert two_pair(fkranks) == None
     assert two_pair(tpranks) == (14, 5)
-    assert poker([sf, fk, fh]) == sf
-    assert poker([fk, fh]) == fk
-    assert poker([fh, fh]) == fh
-    assert poker([sf]) == sf
-    assert poker([sf] + 99*[fh]) == sf
+    assert poker([sf, fk, fh]) == [sf]
+    assert poker([fk, fh]) == [fk]
+    assert poker([fh, fh]) == [fh, fh]
+    assert poker([sf]) == [sf]
+    assert poker([sf] + 99*[fh]) == [sf]
     assert hand_rank(sf) == (8, 10)
     assert hand_rank(fk) == (7, 9, 7)
     assert hand_rank(fh) == (6, 10, 7)
