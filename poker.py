@@ -84,6 +84,7 @@ def hand_rank(hand):
 
 def allmax(iterable, key=None):
     """Return a list of all items equal to the max of the iterable.
+    This auxiliary function helps in handling ties.
 
     Args:
         iterable: list of all the items, poker hands.
