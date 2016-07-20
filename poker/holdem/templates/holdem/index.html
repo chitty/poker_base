@@ -1,0 +1,31 @@
+{% load staticfiles %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'holdem/style.css' %}" />
+
+<h2 class="red">Sangriento Texas Hold'em</h2>
+<div class="main">
+  <div class="table">
+    {% for card in player %}
+    <div class="card-small">
+      <p class="card-text {{card.color}}">{{card.rank}}</p>
+      <p class="card-img {{card.color}}">&{{card.suit}};</p>
+    </div>
+    {% endfor %}
+    <div class="board">
+      {% for community_card in community_cards %}
+      <div class="card-small">
+        <p class="card-text {{community_card.color}}">{{community_card.rank}}</p>
+        <p class="card-img {{community_card.color}}">&{{community_card.suit}};</p>
+      </div>
+      {% endfor %}  
+    </div>
+    {% for card in cpu %}
+    <div class="card-small opponent">
+      <p class="card-text {{card.color}}">{{card.rank}}</p>
+      <p class="card-img {{card.color}}">&{{card.suit}};</p>
+    </div>
+    {% endfor %}
+  </div>
+  <center><h3>{{ outcome }}</h3></center>
+</div>
+
