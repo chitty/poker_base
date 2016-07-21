@@ -1,31 +1,56 @@
 {% load staticfiles %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'holdem/style.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'holdem/bootstrap.min.css' %}" />
+<script src="{% static 'holdem/poker.min.js' %}"></script>
 
-<h2 class="red">Sangriento Texas Hold'em</h2>
-<div class="main">
-  <div class="table">
-    {% for card in player %}
-    <div class="card-small">
-      <p class="card-text {{card.color}}">{{card.rank}}</p>
-      <p class="card-img {{card.color}}">&{{card.suit}};</p>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h2 class="text-center">Sangriento Texas Hold'em</h2>
     </div>
-    {% endfor %}
-    <div class="board">
-      {% for community_card in community_cards %}
-      <div class="card-small">
-        <p class="card-text {{community_card.color}}">{{community_card.rank}}</p>
-        <p class="card-img {{community_card.color}}">&{{community_card.suit}};</p>
-      </div>
-      {% endfor %}  
-    </div>
-    {% for card in cpu %}
-    <div class="card-small opponent">
-      <p class="card-text {{card.color}}">{{card.rank}}</p>
-      <p class="card-img {{card.color}}">&{{card.suit}};</p>
-    </div>
-    {% endfor %}
   </div>
-  <center><h3>{{ outcome }}</h3></center>
+  <div class="row">
+    <div class="col-md-2">
+    </div>
+    <div class="col-md-8">
+      <canvas id="board" width="520" height="140"></canvas>
+    </div>
+    <div class="col-md-2">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-5">
+      <h3>Your cards</h3>
+      <canvas id="user" width="220" height="140"></canvas>
+    </div>
+    <div class="col-md-2">
+    </div>
+    <div class="col-md-5">
+      <h3>Opponent</h3>
+      <canvas id="cpu" width="220" height="140"></canvas>
+    </div>
+  </div>
 </div>
 
+
+<script type="text/javascript">
+  var data = {{ js_data }};
+  var canvas = document.getElementById('board').getContext('2d');
+  var offset = 10;
+  for (var i=0; i<5;i++){
+    canvas.drawPokerCard(offset, 10, 120, data.community_cards[i]["suit"], data.community_cards[i]["rank"]);
+    offset += 100;
+  }
+
+canvas.drawPokerCard(110, 10, 120, 'clubs', '7');
+canvas.drawPokerCard(210, 10, 120, 'diamonds', '10');
+canvas.drawPokerCard(310, 10, 120, 'clubs', 'K');
+canvas.drawPokerCard(410, 10, 120, 'hearts', '2');
+var canvasUser = document.getElementById('user').getContext('2d');
+canvasUser.drawPokerCard(10, 10, 120, 'hearts', '3');
+canvasUser.drawPokerCard(110, 10, 120, 'hearts', '5');
+var canvasCpu = document.getElementById('cpu').getContext('2d');
+canvasCpu.drawPokerCard(10, 10, 120, 'hearts', 'A');
+canvasCpu.drawPokerCard(110, 10, 120, 'spades', 'Q');
+</script>

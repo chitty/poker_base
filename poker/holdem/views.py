@@ -1,5 +1,7 @@
 from django.shortcuts import render
 
+import json
+
 from poker.urls import *
 from poker_base.poker import poker, hand_rank
 from poker_base.deal import texas_holdem_deal
@@ -26,8 +28,10 @@ def index(request):
     else:
         outcome = "You lost to a %s" % hand_names[ranking]
 
-    context = {'player': player_hand, 'cpu': cpu_hand,
-               'outcome': outcome, 'community_cards': community_cards}
+    js_data = {'player': player_hand, 'cpu': cpu_hand,
+                          'community_cards': community_cards}
+
+    context = {'player': player_hand, 'js_data': js_data}
 
     return render(request, 'holdem/index.html', context)
 

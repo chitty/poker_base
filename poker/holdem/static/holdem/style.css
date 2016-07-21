@@ -1,6 +1,11 @@
 .main {
   width: 1000px;
 }
+#rectangle{
+    width:200px;
+    height:100px;
+    background:blue;
+}
 
 .table {
   background-color: green;
